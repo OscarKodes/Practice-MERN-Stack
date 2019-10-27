@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const User = require('../models/user.model');
 
+// INDEX ROUTE
 router.get('/', (req, res) => {
     
     User.find() // find() gets all the users
@@ -8,6 +9,7 @@ router.get('/', (req, res) => {
         .catch(err => res.status(400).json('Error: ' + err)); // if there's an error it'll return an error message
 });
 
+// CREATE ROUTE
 router.post('/', (req, res) => {
     const username = req.body.username
 

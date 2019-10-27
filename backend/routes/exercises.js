@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Exercise = require('../models/exercise.model');
 
+// INDEX ROUTE
 router.get('/', (req, res) => {
     
     Exercise.find() // find() gets all the exercises
@@ -8,6 +9,7 @@ router.get('/', (req, res) => {
         .catch(err => res.status(400).json('Error: ' + err)); // if there's an error it'll return an error message
 });
 
+// CREATE ROUTE
 router.post('/', (req, res) => {
 
     const username = req.body.username;
@@ -27,12 +29,14 @@ router.post('/', (req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// SHOW ROUTE
 router.get('/:id', (req, res) => {
     Exercise.findById(req.params.id)
         .then(exercise => res.json(exercise))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// UPDATE ROUTE
 router.put('/:id', (req, res) => {
 
     Exercise.findById(req.params.id)
@@ -49,6 +53,7 @@ router.put('/:id', (req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// DELETE ROUTE
 router.delete('/:id', (req, res) => {
     Exercise.findByIdAndDelete(req.params.id)
     .then(() => res.json('Exercise deleted'))
