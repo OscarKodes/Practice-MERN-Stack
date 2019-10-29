@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios';
 
 class createExercise extends Component {
 
@@ -12,12 +13,22 @@ class createExercise extends Component {
         users: []
     };
 
-    componentDidMount() {
+    componentDidMount() { 
+        // This will only run once at the beginning
         // will run before component loads
-        this.setState({
-            users: ['test user'],
-            username: 'text user'
-        });
+        axios.get("http://localhost:5000/users")
+            .then(res => {
+                if (res.data.length > 0) {
+                    this.setState({
+                        // this will set up the select dropdown menu
+                        users: res.data.map(user => user.username),
+                        // this just sets up where the default username 
+                        // is set at for the select menu
+                        // === The below code is actually unecessary...
+                        username: res.data[0].username
+                    });
+                }
+            })
     }
 
     changeUsernameHandler = (event) => {
@@ -56,7 +67,10 @@ class createExercise extends Component {
 
         console.log(exercise);
 
-        // window.location = '/';
+        axios.post('http://localhost:5000/exercises', exercise)
+            .then(res => console.log(res.data));
+
+        window.location = '/exercises';
     }
 
     render() {
